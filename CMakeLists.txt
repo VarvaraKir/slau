@@ -1,8 +1,16 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.24)
+project(cmake_example)
 
-project(slau)
+option(WITH_TESTS "enable tests" OFF)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# Тип библиотеки определяется опцией cmake "BUILD_SHARED_LIBS"
+# По умолчанию STATIC
+add_library(${PROJECT_NAME})
 
-add_executable(peregonka main.cpp)
+add_subdirectory(src)
+
+# Для включения тестов нужно вызвать команду cmake с опцией -DWITH_TESTS=ON
+if(WITH_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
