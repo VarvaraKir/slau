@@ -1,4 +1,4 @@
-#include <DenseMatrix.hpp>
+#include "DenseMatrix.hpp"
 
 DenseMatrix::DenseMatrix() : rows(0), cols(0), data({}) {}
 DenseMatrix::DenseMatrix(const std::vector<double> &data, size_t cols) : rows(data.size() / cols), cols(cols), data(data) {}
@@ -65,36 +65,4 @@ std::vector<double> DenseMatrix::operator*(const std::vector<double> &v) const
     }
 
     return k;
-}
-
-std::vector<double> operator+(const std::vector<double> &v, const std::vector<double> &x)
-{
-    std::vector<double> y(v.size());
-
-    for (size_t i = 0; i < v.size(); i++)
-    {
-        y[i] = v[i] + x[i];
-    }
-    return y;
-}
-
-double operator*(const std::vector<double> &v, const std::vector<double> &x)
-{
-    double s = 0;
-    for (size_t i = 0; i < v.size(); i++)
-    {
-        s += v[i] * x[i];
-    }
-    return s;
-}
-
-std::vector<double> operator*(std::vector<double> &v, double a)
-{
-    std::vector<double> y(v.size());
-
-    for (size_t i = 0; i < v.size(); i++)
-    {
-        y[i] = v[i] * a;
-    }
-    return y;
 }

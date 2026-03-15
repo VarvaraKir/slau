@@ -24,7 +24,3 @@ public:
 
     std::vector<double> operator*(const std::vector<double> &v) const;
 };
-
-std::vector<double> operator+(const std::vector<double> &v, const std::vector<double> &x);
-double operator*(const std::vector<double> &v, const std::vector<double> &x);
-std::vector<double> operator*(std::vector<double> &v, double a);
