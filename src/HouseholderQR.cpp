@@ -15,7 +15,7 @@ DenseMatrix &HouseholderQR::GetR()
     return R;
 }
 
-DenseMatrix HouseholderQR::rho(const std::vector<double> v) const
+DenseMatrix HouseholderQR::P(const std::vector<double> v) const
 {
     DenseMatrix H = I(v.size());
     return H - (2 * vector_matrix(v, v) / dot(v, v));
@@ -25,6 +25,7 @@ void HouseholderQR::computeQR()
 {
     size_t n = A.GetRows();
     Q = I(n);
+    R = A;
 
     for (size_t k = 0; k < n - 1; k++)
     {
@@ -32,7 +33,7 @@ void HouseholderQR::computeQR()
         std::vector<double> x(m);
         for (size_t i = 0; i < m; i++)
         {
-            x[i] = A(k + i, k);
+            x[i] = R(k + i, k);
         }
         double norm = 0.0;
         for (size_t i = 0; i < m; i++)
@@ -53,14 +54,14 @@ void HouseholderQR::computeQR()
 
             for (size_t i = 0; i < m; i++)
             {
-                y[i] = A(k + i, j);
+                y[i] = R(k + i, j);
             }
             DenseMatrix Pk = P(v);
             std::vector<double> new_y = Pk * y;
 
             for (size_t i = 0; i < m; i++)
             {
-                A.at(k + i, j) = new_y[i];
+                R.at(k + i, j) = new_y[i];
             }
         }
 
@@ -76,8 +77,8 @@ void HouseholderQR::computeQR()
 
             for (size_t i = 0; i < m; i++)
             {
-                Q.at(k + i, j) = y[i];
+                Q.at(k + i, j) = new_y[i];
             }
         }
-        R = A;
+    }
     }

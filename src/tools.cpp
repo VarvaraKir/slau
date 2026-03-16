@@ -1,5 +1,4 @@
 #include "tools.hpp"
-#include <cmath>
 
 DenseMatrix I(size_t n)
 {
@@ -11,22 +10,39 @@ DenseMatrix I(size_t n)
     return DenseMatrix(data, n);
 }
 
-DenseMatrix operator*(double a, const DenseMatrix& mat)
+DenseMatrix transpose(const DenseMatrix &A)
 {
-    std::vector<double> data(mat.GetData());
+    size_t rows = A.GetRows();
+    size_t cols = A.GetCols();
+
+    std::vector<double> data(rows * cols);
+
+    for (size_t i = 0; i < rows; i++)
+    {
+        for (size_t j = 0; j < cols; j++)
+        {
+            data[j * rows + i] = A(i, j);
+        }
+    }
+    return DenseMatrix(data, rows);
+}
+
+DenseMatrix operator*(double a, const DenseMatrix &A)
+{
+    std::vector<double> data(A.GetData());
     for (size_t i = 0; i < data.size(); i++)
     {
         data[i] = data[i] * a;
     }
-    return DenseMatrix(data, mat.GetCols());
+    return DenseMatrix(data, A.GetCols());
 }
 
-DenseMatrix operator*(const DenseMatrix& mat, double a)
+DenseMatrix operator*(const DenseMatrix &A, double a)
 {
-    return a * mat;
+    return A * a;
 }
 
-DenseMatrix operator/(const DenseMatrix& mat, double a)
+DenseMatrix operator/(const DenseMatrix &mat, double a)
 {
     std::vector<double> data(mat.GetData());
     for (size_t i = 0; i < data.size(); i++)
@@ -36,7 +52,7 @@ DenseMatrix operator/(const DenseMatrix& mat, double a)
     return DenseMatrix(data, mat.GetCols());
 }
 
-DenseMatrix operator-(const DenseMatrix& A, const DenseMatrix& B)
+DenseMatrix operator-(const DenseMatrix &A, const DenseMatrix &B)
 {
     std::vector<double> data(A.GetData().size());
     for (size_t i = 0; i < data.size(); i++)
@@ -53,7 +69,7 @@ DenseMatrix vector_matrix(const std::vector<double> &v, const std::vector<double
     {
         for (size_t j = 0; j < v_T.size(); j++)
         {
-           data[i*v.size()+j] = v[i] * v_T[j];
+            data[i * v.size() + j] = v[i] * v_T[j];
         }
     }
     return DenseMatrix(data, v.size());
@@ -110,4 +126,19 @@ std::vector<double> operator-(const std::vector<double> &v, const std::vector<do
         y[i] = v[i] - x[i];
     }
     return y;
+}
+
+double norm2(const std::vector<double> &v)
+{
+    return sqrt(dot(v, v));
+}
+
+std::vector<double> normalize(const std::vector<double> &v)
+{
+    double n = norm2(v);
+    if (n > 0)
+    {
+        return v * (1.0 / n);
+    }
+    return v;
 }

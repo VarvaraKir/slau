@@ -5,7 +5,7 @@ include(GoogleTest)
 set(LIBS ${PROJECT_NAME} GTest::gtest_main)
 
 set(TEST_SOURCES
-    test_foo.cpp
+    test_Householder.cpp
 )
 
 foreach(TEST_FILE IN LISTS TEST_SOURCES)

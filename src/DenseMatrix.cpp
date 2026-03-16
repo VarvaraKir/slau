@@ -66,3 +66,28 @@ std::vector<double> DenseMatrix::operator*(const std::vector<double> &v) const
 
     return k;
 }
+
+DenseMatrix DenseMatrix::operator*(const DenseMatrix& other) const {
+    size_t n = rows, m = other.cols;
+    std::vector<double> v(n * m);
+    for (size_t i = 0; i < n; i++) {
+        for (size_t k = 0; k < cols; k++) {
+            for (size_t j = 0; j < m; j++) {
+                v[m * i + j] += operator()(i, k) * other(k, j);
+            }
+        }
+    }
+    return DenseMatrix(v, m);
+}
+
+bool DenseMatrix::operator==(const DenseMatrix& other) const {
+    double eps = 1e-13;
+    for (size_t i = 0; i < rows; i++) {
+        for (size_t j = 0; j < cols; j++) {
+            if (fabs(operator()(i, j) - other(i, j)) > eps) {
+                return false;
+            } 
+        }
+    }
+    return true;
+}

@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 class DenseMatrix
 {
@@ -23,4 +24,7 @@ public:
     const std::vector<double> GetCol(size_t k) const;
 
     std::vector<double> operator*(const std::vector<double> &v) const;
+    DenseMatrix operator*(const DenseMatrix& other) const;
+    
+    bool operator==(const DenseMatrix& other) const;
 };
