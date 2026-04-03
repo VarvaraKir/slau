@@ -128,6 +128,11 @@ std::vector<double> operator-(const std::vector<double> &v, const std::vector<do
     return y;
 }
 
+bool operator==(const std::vector<double> &v, const std::vector<double> &x)
+{
+    return (norm2(v - x) < 1e-6);
+}
+
 double norm2(const std::vector<double> &v)
 {
     return sqrt(dot(v, v));
@@ -141,4 +146,17 @@ std::vector<double> normalize(const std::vector<double> &v)
         return v * (1.0 / n);
     }
     return v;
+}
+
+std::ostream &operator<<(std::ostream &os, const std::vector<double> &vec)
+{
+    double eps = 1e-100, el;
+
+    for (unsigned i = 0; i < vec.size(); i++)
+    {
+        el = fabs(vec[i]) > eps ? vec[i] : 0;
+        os << el << ' ';
+    }
+
+    return os;
 }

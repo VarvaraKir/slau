@@ -1,7 +1,7 @@
 #include <CSRMatrix.hpp>
 
 CSRMatrix::CSRMatrix() : N(0), M(0), values({}), cols({}), rows({}) {}
-CSRMatrix::CSRMatrix(const std::vector<double> &values, std::vector<double> &cols, std::vector<double> &rows) : N(cols.size()), M(rows.size() - 1), values(values), cols(cols), rows(rows) {}
+CSRMatrix::CSRMatrix(const std::vector<double> &values, const std::vector<double> &cols, const std::vector<double> &rows) : N(cols.size()), M(rows.size() - 1), values(values), cols(cols), rows(rows) {}
 
 double CSRMatrix::operator()(size_t i, size_t j) const
 {
@@ -17,7 +17,7 @@ double CSRMatrix::operator()(size_t i, size_t j) const
 
 std::vector<double> CSRMatrix::operator*(const std::vector<double> &v) const
 {
-    std::vector<double> y(cols);
+    std::vector<double> y(M);
 
     for (size_t i = 0; i < M; i++)
     {

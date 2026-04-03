@@ -15,7 +15,48 @@ DenseMatrix solvers::QR(const DenseMatrix &Q, const DenseMatrix &R, const DenseM
         {
             sum += R(i, j) * x[j];
         }
-            x[i] = (y(i, 0) - sum)/R(i,i);
+        x[i] = (y(i, 0) - sum) / R(i, i);
     }
     return DenseMatrix(x, 1);
+}
+
+std::vector<double> solvers::wthD(const CSRMatrix &A, std::vector<double> &v)
+{
+    std::vector<double> y(A.M);
+
+    for (size_t i = 0; i < A.M; i++)
+    {
+        for (size_t k = A.rows[i]; k < A.rows[i + 1]; k++)
+        {
+            if (i != A.cols[k])
+            {
+                y[i] += A.values[k] * v[A.cols[k]];
+            }
+        }
+    }
+    return y;
+}
+
+std::vector<double> solvers::Jacobi(const CSRMatrix &A, const std::vector<double> &b)
+{
+    std::vector<double> x0(b.size());
+    std::vector<double> y;
+    while (true)
+    {
+        y = b - wthD(A, x0);
+
+        std::vector<double> x1(b.size());
+        for (size_t i = 0; i < b.size(); i++)
+        {
+            x1[i] = 1 / A(i, i) * y[i];
+        }
+
+        double r = norm2(A * x1 - b);
+        if (r < 1e-8)
+        {
+            return x1;
+        }
+
+        x0 = x1;
+    }
 }
