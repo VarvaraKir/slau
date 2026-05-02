@@ -60,3 +60,41 @@ std::vector<double> solvers::Jacobi(const CSRMatrix &A, const std::vector<double
         x0 = x1;
     }
 }
+
+std::vector<double> solvers::GaussSeidel(const CSRMatrix &A, const std::vector<double> &b)
+{
+    std::vector<double> x(b.size(), 0.0);
+
+    while (true)
+    {
+        for (size_t i = 0; i < b.size(); i++)
+        {
+            double sum = b[i];
+            double diag = 0.0;
+
+            for (size_t k = A.rows[i]; k < A.rows[i + 1]; k++)
+            {
+                size_t j = A.cols[k];
+
+                if (i == j)
+                {
+                    diag = A.values[k];
+                }
+                else
+                {
+                    sum -= A.values[k] * x[j];
+                }
+            }
+            if (std::abs(diag) < 1e-12)
+            {
+                throw std::runtime_error("Zero diagonal element at row " + std::to_string(i));
+            }
+            x[i] = sum / diag;
+        }
+        double r = norm2(A * x - b);
+        if (r < 1e-8)
+        {
+            return x;
+        }
+    }
+}

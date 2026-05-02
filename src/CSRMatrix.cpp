@@ -1,4 +1,4 @@
-#include <CSRMatrix.hpp>
+#include "CSRMatrix.hpp"
 
 CSRMatrix::CSRMatrix() : N(0), M(0), values({}), cols({}), rows({}) {}
 CSRMatrix::CSRMatrix(const std::vector<double> &values, const std::vector<double> &cols, const std::vector<double> &rows) : N(cols.size()), M(rows.size() - 1), values(values), cols(cols), rows(rows) {}

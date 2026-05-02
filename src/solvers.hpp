@@ -12,4 +12,7 @@ namespace solvers
 
     std::vector<double> Jacobi(const CSRMatrix &A, const std::vector<double> &b);
 
+    std::vector<double> GaussSeidel(const CSRMatrix &A, const std::vector<double> &b);
+    
+
 }
