@@ -14,7 +14,7 @@ namespace solvers
 
     std::vector<double> GaussSeidel(const CSRMatrix &A, const std::vector<double> &b);
     
-    std::vector<double> solvers::fixedPointIteratiun(const CSRMatrix &A, const std::vector<double> &b, const std::vector<double> &x, double tau, double breakpoint);
+    std::vector<double> fixedPointIteration(const CSRMatrix &A, const std::vector<double> &b, const std::vector<double> &x, double tau, double breakpoint);
     
 
 }

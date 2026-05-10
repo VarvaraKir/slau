@@ -99,7 +99,7 @@ std::vector<double> solvers::GaussSeidel(const CSRMatrix &A, const std::vector<d
     }
 }
 
-std::vector<double> solvers::fixedPointIteratiun(const CSRMatrix &A, const std::vector<double> &b, const std::vector<double> &x0, double tau, double breakpoint)
+std::vector<double> solvers::fixedPointIteration(const CSRMatrix &A, const std::vector<double> &b, const std::vector<double> &x0, double tau, double breakpoint)
 {
     std::vector<double> x = x0;
     std::vector<double> residalvector = A * x - b;
